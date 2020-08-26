@@ -20,13 +20,6 @@ from utils import *
 """hyper parameters"""
 use_cuda = True
 
-# def detect_img(cfgfile, weightfile, imgfile):
-#     m = Darknet(cfgfile)
-
-#     m.print_network()
-#     m.load_weights(weightfile)
-#     print('Loading weights from %s... Done!' % (weightfile))
-
 def detect_yolov4(model, class_names, imgs, cam_name='', batch=4):
     sizeds = []
     height, width, _ = imgs[0].shape
@@ -118,7 +111,6 @@ def detect(json_dir, video_dir, save_dir):
         for i in tqdm(range(num_frames), desc='Extracting {}'.format(cam_name)):
             success, img = video_cap.read()
             
-            img = Image.fromarray(frame[...,::-1])  # bgr to rgb
             imgs.append(img)
 
         boxes = detect_yolov4(model, class_names, imgs, cam_name, 4)

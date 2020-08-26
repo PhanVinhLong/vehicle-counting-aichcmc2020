@@ -130,7 +130,7 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 				img2 = draw_frame(img2, i)
 				img2 = draw_moi(img2, cam_data['shapes'], color_lines)
 				if cam_name in count_dict.keys():
-					count = cal_frame_count(count, count_dict[cam_name], i)			
+					count = cal_frame_count(count, count_dict[cam_name], i)
 					img2 = draw_count(img2, count, color_lines, class_names_track)
 				video_writer_track.write(img2)
 
@@ -141,10 +141,10 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 			os.remove(os.path.join(save_dir, cam_name + '_detect.avi'))
 		
 		if track_dir:
+			video_writer_track.release()
 			clip = moviepy.VideoFileClip(os.path.join(save_dir, cam_name + '_track.avi'), verbose=False)
 			clip.write_videofile(os.path.join(save_dir, cam_name + '_track.mp4'))
 			os.remove(os.path.join(save_dir, cam_name + '_track.avi'))
-			video_writer_track.release()
 
 	endtime = timeit.default_timer()
 	

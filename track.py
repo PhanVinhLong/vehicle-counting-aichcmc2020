@@ -22,6 +22,7 @@ from deep_sort.tracker import Tracker
 from deep_sort.tools import generate_detections as gdet
 import imutils.video
 from utils import *
+from config import config
 
 warnings.filterwarnings('ignore')
 

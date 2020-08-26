@@ -55,6 +55,8 @@ def counting_moi(paths, moto_vector_list, class_id):
 def count(json_dir, video_dir, track_dir, save_dir):
 	starttime = timeit.default_timer()
 
+	remove_wrong_class = True
+
 	Path(save_dir).mkdir(parents=True, exist_ok=True)
 
 	cam_datas = get_list_data(json_dir)
@@ -86,6 +88,12 @@ def count(json_dir, video_dir, track_dir, save_dir):
 						track_dict[class_id][track_id] = [(x1, y1, x2, y2, frame_id)]
 					else:
 						track_dict[class_id][track_id].append((x1, y1, x2, y2, frame_id))
+
+		if remove_wrong_class:
+			for class_id, class_tracks in enumerate(tracks):
+				for frame_id, vehicle_tracks in enumerate(class_tracks):
+					for track in vehicle_tracks:
+						pass
 
 		vector_list = []
 		for class_id, class_track_dict in enumerate(track_dict):
