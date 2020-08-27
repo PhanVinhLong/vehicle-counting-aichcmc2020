@@ -95,12 +95,14 @@ def track(json_dir, video_dir, detect_dir, save_dir):
 
         trackers = []
         filtered_tracks = []
+        track_len_dict = []
         for _ in range(len(classes_map)):
             metric = nn_matching.NearestNeighborDistanceMetric(
                 "cosine", max_cosine_distance, nn_budget)
             tracker = Tracker(metric)
             trackers.append(tracker)
             filtered_tracks.append([])
+            track_len_dict.append({})
 
         for i in tqdm(range(num_frames), desc='Tracking {}'.format(cam_name)):
             success, frame = video_cap.read()
@@ -108,7 +110,8 @@ def track(json_dir, video_dir, detect_dir, save_dir):
             for class_id in range(len(classes_map)):
                 boxes, confidence, classes = map_boxes(
                     bboxes[i], classes_map, class_id)
-
+                    
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 features = encoder(frame, boxes)
                 detections = [Detection(bbox, confidence, cls, feature) for bbox, confidence, cls, feature in
                               zip(boxes, confidence, classes, features)]
@@ -130,7 +133,28 @@ def track(json_dir, video_dir, detect_dir, save_dir):
                         continue
                     bbox = track.to_tlbr()
                     tracks.append([int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]), class_id, track.track_id])
+                    if track.track_id not in track_len_dict[class_id].keys():
+                        track_len_dict[class_id][track.track_id] = 1
+                    else:
+                        track_len_dict[class_id][track.track_id] += 1
                 filtered_tracks[class_id].append(tracks)
+
+        # remove short track
+        if config['min_track_len']:
+            short_tracks = []
+            for class_id in range(len(classes_map)):
+                short_track_ids = [track_id for track_id in track_len_dict[class_id].keys() if track_len_dict[class_id][track_id] < config['min_track_len']]
+                short_tracks.append(short_track_ids)
+
+            for class_id in range(len(classes_map)):
+                for frame_id in range(num_frames):
+                    list_remove = []
+                    for idx, track in enumerate(filtered_tracks[class_id][frame_id]):
+                        if track[-1] in short_tracks[class_id]:
+                            list_remove.append(idx)
+                    list_remove.sort(reverse=True)
+                    for idx in list_remove:
+                        filtered_tracks[class_id][frame_id].pop(idx)
 
         filtered_tracks = np.array(filtered_tracks)
         

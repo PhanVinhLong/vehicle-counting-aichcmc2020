@@ -177,6 +177,7 @@ def draw_count(img, counts, colors=None, class_names=None):
 	res = cv2.addWeighted(sub_img, 0.6, white_rect, 0.6, 1.0)
 	img[y:y+h, x:x+w] = res
 
+	# draw classes label
 	if class_names:
 		mess = ''
 		for class_name in class_names:
@@ -184,7 +185,8 @@ def draw_count(img, counts, colors=None, class_names=None):
 			mess = mess + str(class_name) + ' '* num_space
 		cv2.putText(img, mess, (image_w - 140, 20), cv2.FONT_HERSHEY_SIMPLEX,
 						0.4, (0, 0, 0), bbox_thick // 2 , lineType=cv2.LINE_AA)
-	
+						
+	# draw counting result
 	for i, line_count in enumerate(counts):
 		for j, count in enumerate(line_count):
 			cv2.putText(img, str(count), (image_w - 140 + j * 33, 35 + i * 15), cv2.FONT_HERSHEY_SIMPLEX,

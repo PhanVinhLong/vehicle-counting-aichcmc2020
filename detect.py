@@ -16,26 +16,28 @@ from tool.torch_utils import *
 from tool.darknet2pytorch import Darknet
 from shapely.geometry import Polygon
 from utils import *
+from config import config
 
 """hyper parameters"""
 use_cuda = True
+remove_not_intersec_moi = config['remove_not_intersec_moi']
 
 def detect_yolov4(model, class_names, imgs, cam_name='', batch=4):
     sizeds = []
     height, width, _ = imgs[0].shape
-    for img in imgs:
+    for img in tqdm(imgs, desc='Resize images {}'.format(cam_name)):
         sized = cv2.resize(img, (model.width, model.height))
         sized = cv2.cvtColor(sized, cv2.COLOR_BGR2RGB)
         sizeds.append(sized)
-    sizeds = np.array(sizeds)
-
+    # sizeds = np.array(sizeds)
+    
     start = 0
     end = batch
     result = []
     with tqdm(total=len(imgs), desc='Detecting {}'.format(cam_name)) as progress_bar:
         while True:
             for i in range(2):
-                boxes = do_detect(model, sizeds[start:end], 0.4, 0.6, use_cuda)
+                boxes = do_detect(model, np.array(sizeds[start:end]), 0.4, 0.6, use_cuda)
                 if i==1:
                     for i in range(end-start):
                         img_boxes = []
@@ -110,13 +112,15 @@ def detect(json_dir, video_dir, save_dir):
         imgs = []
         for i in tqdm(range(num_frames), desc='Extracting {}'.format(cam_name)):
             success, img = video_cap.read()
-            
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
             imgs.append(img)
 
         boxes = detect_yolov4(model, class_names, imgs, cam_name, 4)
 
         # remove bboxes out of MOI
-        boxes = [check_intersect_box(box_list, moi_poly) for box_list in boxes]
+        if remove_not_intersec_moi:
+            boxes = [check_intersect_box(box_list, moi_poly) for box_list in boxes]
 
         if save_dir:
             filepath = os.path.join(save_dir, cam_name)

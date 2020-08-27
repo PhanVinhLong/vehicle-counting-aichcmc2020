@@ -5,6 +5,7 @@ import os
 import argparse
 from utils import *
 from pathlib import Path
+from config import config
 
 def parse_args():
     argparser = argparse.ArgumentParser(
@@ -55,7 +56,8 @@ def counting_moi(paths, moto_vector_list, class_id):
 def count(json_dir, video_dir, track_dir, save_dir):
 	starttime = timeit.default_timer()
 
-	remove_wrong_class = True
+	remove_wrong_classes = config['remove_wrong_classes']
+	min_track_len = config['min_track_len']
 
 	Path(save_dir).mkdir(parents=True, exist_ok=True)
 
@@ -89,11 +91,21 @@ def count(json_dir, video_dir, track_dir, save_dir):
 					else:
 						track_dict[class_id][track_id].append((x1, y1, x2, y2, frame_id))
 
-		if remove_wrong_class:
-			for class_id, class_tracks in enumerate(tracks):
-				for frame_id, vehicle_tracks in enumerate(class_tracks):
-					for track in vehicle_tracks:
-						pass
+		# remove track with small len
+		# small_key = []
+		# for class_id, _ in enumerate(tracks):
+		# 	for track_id in track_dict[class_id].keys():
+		# 		if len(track_dict[class_id][track_id]) < min_track_len:
+		# 			small_key.append((class_id, track_id))
+		# for class_id, track_id in small_key:
+		# 	del track_dict[class_id][track_id]
+
+		# remove wrong classes track
+		# if remove_wrong_classes:
+		# 	for class_id, class_tracks in enumerate(tracks):
+		# 		for frame_id, vehicle_tracks in enumerate(class_tracks):
+		# 			for track in vehicle_tracks:
+		# 				pass
 
 		vector_list = []
 		for class_id, class_track_dict in enumerate(track_dict):

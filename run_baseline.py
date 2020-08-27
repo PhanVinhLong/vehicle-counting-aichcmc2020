@@ -10,9 +10,9 @@ def parse_args():
     argparser = argparse.ArgumentParser(
         description='Data preparation for vehicle counting')
     argparser.add_argument('-j', '--json_dir', type=str,
-                           default='data/json/', help='Json directory')
+                           default='../data/json/', help='Json directory')
     argparser.add_argument('-v', '--video_dir', type=str,
-                           default='data/video/', help='Video directory')
+                           default='../data/video/', help='Video directory')
     argparser.add_argument('-d', '--detect_dir', type=str,
                            default='data/detect', help='Detection result directory')
     argparser.add_argument('-t', '--track_dir', type=str,
@@ -29,13 +29,13 @@ def parse_args():
 if __name__=='__main__':
     args = parse_args()
 
-    json_dir = args['json_dir']
-    video_dir = args['video_dir']
-    detect_dir = args['detect_dir']
-    track_dir = args['track_dir']
-    count_dir = args['count_dir']
-    visualize_dir = args['visualize_dir']
-    result_dir = args['result_dir']
+    json_dir = os.path.abspath(args['json_dir'])
+    video_dir = os.path.abspath(args['video_dir'])
+    detect_dir = os.path.abspath(args['detect_dir'])
+    track_dir = os.path.abspath(args['track_dir'])
+    count_dir = os.path.abspath(args['count_dir'])
+    visualize_dir = os.path.abspath(args['visualize_dir'])
+    result_dir = os.path.abspath(args['result_dir'])
 
     detect(json_dir, video_dir, detect_dir)
     track(json_dir, video_dir, detect_dir, track_dir)

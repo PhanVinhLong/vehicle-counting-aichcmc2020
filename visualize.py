@@ -22,7 +22,7 @@ def parse_args():
 	argparser.add_argument('-v', '--video_dir', type=str, default='data/video/', help='Video directory')
 	argparser.add_argument('-d', '--detect_dir', type=str, default='data/detect', help='Detection result directory')
 	argparser.add_argument('-t', '--track_dir', type=str, default='data/track', help='Tracking result directory')
-	argparser.add_argument('-c', '--count_dir', type=str, default='', help='Counting result directory')
+	argparser.add_argument('-c', '--count_dir', type=str, default='data/count', help='Counting result directory')
 	argparser.add_argument('-s', '--save_dir', type=str, default='data/visualize', help='Save result')
 	args = vars(argparser.parse_args())
 	return args
@@ -109,7 +109,7 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 
 
 		count = []
-		for class_id in range(num_lines):
+		for __id in range(num_lines):
 			count.append([0 for _ in range(len(class_names_track))])
 
 		for i in tqdm(range(num_frames), desc='Visualizing {}'.format(cam_name)):
@@ -137,13 +137,13 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 		if detect_dir:
 			video_writer_det.release()
 			clip = moviepy.VideoFileClip(os.path.join(save_dir, cam_name + '_detect.avi'), verbose=False)
-			clip.write_videofile(os.path.join(save_dir, cam_name + '_detect.mp4'))
+			clip.write_videofile(os.path.join(save_dir, cam_name + '_detect.mp4'), verbose=False)
 			os.remove(os.path.join(save_dir, cam_name + '_detect.avi'))
 		
 		if track_dir:
 			video_writer_track.release()
 			clip = moviepy.VideoFileClip(os.path.join(save_dir, cam_name + '_track.avi'), verbose=False)
-			clip.write_videofile(os.path.join(save_dir, cam_name + '_track.mp4'))
+			clip.write_videofile(os.path.join(save_dir, cam_name + '_track.mp4'), verbose=False)
 			os.remove(os.path.join(save_dir, cam_name + '_track.avi'))
 
 	endtime = timeit.default_timer()
