@@ -148,7 +148,7 @@ def draw_bbox_track(image, bboxes, classes, colors, mm_track, mm_colors):
 						fontScale, (0, 0, 0), bbox_thick // 2, lineType=cv2.LINE_AA)
 			if str(track_id) in mm_track[str(class_id)].keys():
 				mm_color_id = mm_track[str(class_id)][str(track_id)] + 1
-				cv2.circle(image, (ox, oy), bbox_thick, mm_colors[mm_color_id], -1)
+				cv2.circle(image, (ox, oy), bbox_thick * 5, mm_colors[mm_color_id], -1)
 	return image
 
 
