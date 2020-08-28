@@ -69,16 +69,16 @@ def track(json_dir, video_dir, detect_dir, save_dir):
 
     cam_datas = get_list_data(json_dir)
 
-    max_cosine_distance = 0.3
-    nn_budget = None
-    nms_max_overlap = 1.0
+    max_cosine_distance = config['tracker']['max_cosine_distance']
+    nn_budget = config['tracker']['nn_budget']
+    nms_max_overlap = config['tracker']['nms_max_overlap']
 
     # Deep SORT
-    model_filename = 'deep_sort/model_data/mars-small128.pb'
+    model_filename = config['tracker']['modelfile']
     encoder = gdet.create_box_encoder(model_filename, batch_size=16)
 
-    classes_map = [[1, 3], [2], [5], [7]]
-    class_names = ['type 1', 'type 2', 'type 3', 'type 4']
+    classes_map = config['detector']['classesmap']
+    class_names = config['detector']['classnames']
 
     for cam_data in cam_datas:
         cam_name = cam_data['camName']
@@ -140,7 +140,7 @@ def track(json_dir, video_dir, detect_dir, save_dir):
                 filtered_tracks[class_id].append(tracks)
 
         # remove short track
-        if config['min_track_len']:
+        if config['tracker']['min_len']:
             short_tracks = []
             for class_id in range(len(classes_map)):
                 short_track_ids = [track_id for track_id in track_len_dict[class_id].keys() if track_len_dict[class_id][track_id] < config['min_track_len']]

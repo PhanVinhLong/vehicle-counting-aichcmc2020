@@ -13,6 +13,12 @@ from tqdm import tqdm
 from pathlib import Path
 
 from utils import *
+from config import config
+
+import sys
+sys.path.append(os.path.realpath('yolov4'))
+
+from tool.utils import *
 
 
 def parse_args():
@@ -57,8 +63,10 @@ def cal_frame_count(count, count_dict, frame_id):
 def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 	starttime = timeit.default_timer()
 
-	class_names_track=['1', '2', '3', '4']
-	class_names = ['person','bicycle','car','motorbike','aeroplane','bus','train','truck','boat','traffic light','fire hydrant','stop sign','parking meter','bench','bird','cat','dog','horse','sheep','cow','elephant','bear','zebra','giraffe','backpack','umbrella','handbag','tie','suitcase','frisbee','skis','snowboard','sports ball','kite','baseball bat','baseball glove','skateboard','surfboard','tennis racket','bottle','wine glass','cup','fork','knife','spoon','bowl','banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake','chair','sofa','pottedplant','bed','diningtable','toilet','tvmonitor','laptop','mouse','remote','keyboard','cell phone','microwave','oven','toaster','sink','refrigerator','book','clock','vase','scissors','teddy bear','hair drier','toothbrush']
+	namesfile = config['detector']['classnamefile']
+	class_names = load_class_names(namesfile)
+	classes_map = config['detector']['classesmap']
+	class_names_track = config['detector']['classnames']
 
 	Path(save_dir).mkdir(parents=True, exist_ok=True)
 	

@@ -20,7 +20,6 @@ from config import config
 
 """hyper parameters"""
 use_cuda = True
-remove_not_intersec_moi = config['remove_not_intersec_moi']
 
 def detect_yolov4(model, class_names, imgs, cam_name='', batch=4):
     sizeds = []
@@ -82,28 +81,21 @@ def detect(json_dir, video_dir, save_dir):
 
     Path(save_dir).mkdir(parents=True, exist_ok=True)
 
-    cfgfile = 'yolov4/cfg/yolov4.cfg'
-    weightfile = 'yolov4/yolov4.weights'
+    cfgfile = config['detector']['cfgfile']
+    weightfile = config['detector']['weightfile']
 
     model = Darknet(cfgfile)
     # model.print_network()
     model.load_weights(weightfile)
     model.cuda()
 
-    num_classes = model.num_classes
-    if num_classes == 20:
-        namesfile = 'yolov4/data/voc.names'
-    elif num_classes == 80:
-        namesfile = 'yolov4/data/coco.names'
-    else:
-        namesfile = 'yolov4/data/x.names'
+    namesfile = config['detector']['classnamefile']
     class_names = load_class_names(namesfile)
-
     cam_datas = get_list_data(json_dir)
     
     for cam_data in cam_datas:
         cam_name = cam_data['camName']
-        moi_poly =  Polygon(cam_data['shapes'][0]['points'])
+        roi_poly =  Polygon(cam_data['shapes'][0]['points'])
 
         video_path = os.path.join(video_dir, cam_name + '.mp4')
         video_cap = cv2.VideoCapture(video_path)
@@ -119,8 +111,8 @@ def detect(json_dir, video_dir, save_dir):
         boxes = detect_yolov4(model, class_names, imgs, cam_name, 4)
 
         # remove bboxes out of MOI
-        if remove_not_intersec_moi:
-            boxes = [check_intersect_box(box_list, moi_poly) for box_list in boxes]
+        if config['remove_not_intersec_moi']:
+            boxes = [check_intersect_box(box_list, roi_poly) for box_list in boxes]
 
         if save_dir:
             filepath = os.path.join(save_dir, cam_name)

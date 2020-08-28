@@ -6,6 +6,11 @@ import argparse
 from utils import *
 from pathlib import Path
 from config import config
+import sys
+
+sys.path.append(os.path.realpath('yolov4'))
+
+from tool.utils import *
 
 def parse_args():
     argparser = argparse.ArgumentParser(
@@ -57,7 +62,7 @@ def count(json_dir, video_dir, track_dir, save_dir):
 	starttime = timeit.default_timer()
 
 	remove_wrong_classes = config['remove_wrong_classes']
-	min_track_len = config['min_track_len']
+	min_track_len = config['tracker']['min_len']
 
 	Path(save_dir).mkdir(parents=True, exist_ok=True)
 
@@ -73,7 +78,9 @@ def count(json_dir, video_dir, track_dir, save_dir):
 		
 		polygon, paths = load_zone_anno(os.path.join(json_dir, cam_name + '.json'))
 		
-		num_classes = 4
+		namesfile = config['detector']['classnamefile']
+		class_names = load_class_names(namesfile)
+		num_classes = len(class_names)
 
 		track_dict = []
 
