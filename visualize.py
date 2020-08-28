@@ -23,7 +23,7 @@ from tool.utils import *
 
 def parse_args():
 	argparser = argparse.ArgumentParser(
-	    description='Data preparation for vehicle counting')
+		description='Data preparation for vehicle counting')
 	argparser.add_argument('-j', '--json_dir', type=str, default='../data/json/', help='Json directory')
 	argparser.add_argument('-v', '--video_dir', type=str, default='../data/video/', help='Video directory')
 	argparser.add_argument('-d', '--detect_dir', type=str, default='data/detect', help='Detection result directory')
@@ -63,8 +63,7 @@ def cal_frame_count(count, count_dict, frame_id):
 def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 	starttime = timeit.default_timer()
 
-	namesfile = config['detector']['classnamefile']
-	class_names = load_class_names(namesfile)
+	class_names = config['detector']['originclassnames']
 	classes_map = config['detector']['classesmap']
 	class_names_track = config['detector']['classnames']
 
@@ -103,6 +102,9 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 			track_res_path = os.path.join(track_dir, cam_name + '.npy')
 			track_bboxes = np.load(track_res_path, allow_pickle=True)
 			video_writer_track = cv2.VideoWriter(os.path.join(save_dir, cam_name + '_track.avi'), cv2.VideoWriter_fourcc('M','J','P','G'), FPS, (width,height))
+			mm_track_res_path = os.path.join(count_dir, cam_name + '.json')
+			with open(mm_track_res_path, 'r') as json_file:
+				mm_track = json.load(json_file)
 
 		num_lines = len(cam_data['shapes']) - 1
 		num_colors = num_lines + 1
@@ -134,7 +136,7 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 			# visualize tracking
 			if track_dir:
 				for class_id in range(len(class_names_track)):
-					img2 = draw_bbox_track(img2, track_bboxes[class_id][i], class_names_track, colors)
+					img2 = draw_bbox_track(img2, track_bboxes[class_id][i], class_names_track, colors, mm_track, color_lines)
 				img2 = draw_frame(img2, i)
 				img2 = draw_moi(img2, cam_data['shapes'], color_lines)
 				if cam_name in count_dict.keys():

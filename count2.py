@@ -69,6 +69,7 @@ def count(json_dir, video_dir, track_dir, save_dir):
 	cam_datas = get_list_data(json_dir)
 
 	results = []
+	
 	for cam_data in cam_datas:
 		cam_name = cam_data['camName']
 		width = int(cam_data['imageWidth'])
@@ -76,6 +77,7 @@ def count(json_dir, video_dir, track_dir, save_dir):
 		track_res_path = os.path.join(track_dir, cam_name + '.npy')
 		tracks = np.load(track_res_path, allow_pickle=True)
 
+		mm_track = {}
 		tipical_trajs = {}
 		for mm_id, mm in enumerate(cam_data['shapes'][1:]):
 			if 'tracklets' in mm.keys():
@@ -106,6 +108,7 @@ def count(json_dir, video_dir, track_dir, save_dir):
 										'tracklet' : [[cx, cy]]}
 						
 		for class_id, _ in enumerate(track_dict):
+			mm_track[class_id] = {}
 			track_ids = sorted([k for k in track_dict[class_id].keys()])
 			for track_id in track_ids:
 				if len(track_dict[class_id][track_id]['tracklet']) < config['tracker']['min_len']:
@@ -161,7 +164,13 @@ def count(json_dir, video_dir, track_dir, save_dir):
 				track_types = [k[5] for k in bboxes]
 				track_type = max(track_types, key=track_types.count)
 
+				mm_track[class_id][track_id] = mv_idx
 				results.append([cam_name, dst_frame, mv_idx, class_id])
+
+
+		filepath = os.path.join(save_dir, cam_name + '.json')
+		with open(filepath, 'w') as f:
+			json.dump(mm_track, f)
 
 	results.sort(key=lambda x: ([x[0], x[1], x[2], x[3]]))
 	

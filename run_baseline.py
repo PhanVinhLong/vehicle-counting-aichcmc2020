@@ -37,8 +37,8 @@ if __name__=='__main__':
     visualize_dir = os.path.abspath(args['visualize_dir'])
     result_dir = os.path.abspath(args['result_dir'])
 
-    detect(json_dir, video_dir, detect_dir)
-    track(json_dir, video_dir, detect_dir, track_dir)
+    # detect(json_dir, video_dir, detect_dir)
+    # track(json_dir, video_dir, detect_dir, track_dir)
     count(json_dir, video_dir, track_dir, count_dir)
     if visualize_dir:
         visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, visualize_dir)

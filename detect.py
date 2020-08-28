@@ -89,8 +89,7 @@ def detect(json_dir, video_dir, save_dir):
     model.load_weights(weightfile)
     model.cuda()
 
-    namesfile = config['detector']['classnamefile']
-    class_names = load_class_names(namesfile)
+    class_names = config['detector']['originclassnames']
     cam_datas = get_list_data(json_dir)
     
     for cam_data in cam_datas:

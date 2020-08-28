@@ -78,8 +78,7 @@ def count(json_dir, video_dir, track_dir, save_dir):
 		
 		polygon, paths = load_zone_anno(os.path.join(json_dir, cam_name + '.json'))
 		
-		namesfile = config['detector']['classnamefile']
-		class_names = load_class_names(namesfile)
+		class_names = config['detector']['originclassnames']
 		num_classes = len(class_names)
 
 		track_dict = []
