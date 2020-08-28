@@ -1,7 +1,8 @@
 config = {
     'detector': {
         'classesmap': [[1, 3], [2], [5], [7]],
-        'classnames': ['type 1', 'type 2', 'type 3', 'type 4'],
+        'classnames': ['1', '2', '3', '4'],
+        'originclassnames': ['type 1', 'type 2', 'type 3', 'type 4'],
         'cfgfile': 'yolov4/cfg/yolov4.cfg',
         'weightfile': 'yolov4/yolov4.weights',
         'classnamefile': 'yolov4/data/coco.names'
@@ -11,7 +12,7 @@ config = {
         'max_cosine_distance': 0.3,
         'nn_budget': None,
         'nms_max_overlap': 1.0,
-        'min_length': 5
+        'min_len': 5
     },
     'counter': {
         'dist_thr': 300,

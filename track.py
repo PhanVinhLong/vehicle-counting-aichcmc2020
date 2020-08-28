@@ -26,7 +26,6 @@ from config import config
 
 warnings.filterwarnings('ignore')
 
-
 def parse_args():
     argparser = argparse.ArgumentParser(
         description='Data preparation for vehicle counting')
@@ -143,7 +142,7 @@ def track(json_dir, video_dir, detect_dir, save_dir):
         if config['tracker']['min_len']:
             short_tracks = []
             for class_id in range(len(classes_map)):
-                short_track_ids = [track_id for track_id in track_len_dict[class_id].keys() if track_len_dict[class_id][track_id] < config['min_track_len']]
+                short_track_ids = [track_id for track_id in track_len_dict[class_id].keys() if track_len_dict[class_id][track_id] < config['tracker']['min_len']]
                 short_tracks.append(short_track_ids)
 
             for class_id in range(len(classes_map)):

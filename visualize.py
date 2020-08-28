@@ -24,8 +24,8 @@ from tool.utils import *
 def parse_args():
 	argparser = argparse.ArgumentParser(
 	    description='Data preparation for vehicle counting')
-	argparser.add_argument('-j', '--json_dir', type=str, default='data/json/', help='Json directory')
-	argparser.add_argument('-v', '--video_dir', type=str, default='data/video/', help='Video directory')
+	argparser.add_argument('-j', '--json_dir', type=str, default='../data/json/', help='Json directory')
+	argparser.add_argument('-v', '--video_dir', type=str, default='../data/video/', help='Video directory')
 	argparser.add_argument('-d', '--detect_dir', type=str, default='data/detect', help='Detection result directory')
 	argparser.add_argument('-t', '--track_dir', type=str, default='data/track', help='Tracking result directory')
 	argparser.add_argument('-c', '--count_dir', type=str, default='data/count', help='Counting result directory')
@@ -122,7 +122,7 @@ def visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, save_dir):
 
 		for i in tqdm(range(num_frames), desc='Visualizing {}'.format(cam_name)):
 			success, img = video_cap.read()
-			img2 = np.copy(img)
+			img2 = img.copy()
 			
 			# visualize detection
 			if detect_dir:

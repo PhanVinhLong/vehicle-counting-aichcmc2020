@@ -3,14 +3,14 @@ import argparse
 
 from detect import detect
 from track import track
-from count import count
+from count2 import count
 from visualize import visualize
 
 def parse_args():
     argparser = argparse.ArgumentParser(
         description='Data preparation for vehicle counting')
     argparser.add_argument('-j', '--json_dir', type=str,
-                           default='../data/json/', help='Json directory')
+                           default='../data/json-custom/', help='Json directory')
     argparser.add_argument('-v', '--video_dir', type=str,
                            default='../data/video/', help='Video directory')
     argparser.add_argument('-d', '--detect_dir', type=str,
