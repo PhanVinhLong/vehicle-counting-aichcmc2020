@@ -21,7 +21,7 @@ from config import config
 """hyper parameters"""
 use_cuda = True
 
-def detect_yolov4(model, class_names, imgs, cam_name='', batch=4):
+def detect_yolo(model, class_names, imgs, cam_name='', batch=4):
     sizeds = []
     height, width, _ = imgs[0].shape
     for img in tqdm(imgs, desc='Resize images {}'.format(cam_name)):
@@ -85,7 +85,6 @@ def detect(json_dir, video_dir, save_dir):
     weightfile = config['detector']['weightfile']
 
     model = Darknet(cfgfile)
-    # model.print_network()
     model.load_weights(weightfile)
     model.cuda()
 
@@ -104,10 +103,9 @@ def detect(json_dir, video_dir, save_dir):
         for i in tqdm(range(num_frames), desc='Extracting {}'.format(cam_name)):
             success, img = video_cap.read()
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
             imgs.append(img)
 
-        boxes = detect_yolov4(model, class_names, imgs, cam_name, config['detector']['batchsize'])
+        boxes = detect_yolo(model, class_names, imgs, cam_name, config['detector']['batchsize'])
 
         # remove bboxes out of MOI
         if config['remove_not_intersec_moi']:

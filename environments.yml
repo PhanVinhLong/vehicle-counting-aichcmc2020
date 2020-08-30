@@ -34,6 +34,7 @@ dependencies:
     - cython==0.29.21
     - decorator==4.4.2
     - easydict==1.9
+    - future==0.18.2
     - gast==0.3.3
     - google-auth==1.20.1
     - google-auth-oauthlib==0.4.1
@@ -85,7 +86,7 @@ dependencies:
     - tensorflow-estimator==2.3.0
     - termcolor==1.1.0
     - toml==0.10.1
-    - torch==1.4.0
+    - torch==1.6.0
     - tqdm==4.43.0
     - urllib3==1.25.10
     - werkzeug==1.0.1

@@ -19,3 +19,8 @@ result.txt
 __pycache__/
 *.py[cod]
 *$py.class
+
+# model
+*.weights
+*.pth
+*.pkl

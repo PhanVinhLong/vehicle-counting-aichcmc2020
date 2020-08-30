@@ -1,9 +1,9 @@
 import os
 import argparse
 
-from detect import detect
+from detect_detectron import detect
 from track import track
-from count import count
+from count2 import count
 from visualize import visualize
 
 def parse_args():
@@ -40,5 +40,5 @@ if __name__=='__main__':
     detect(json_dir, video_dir, detect_dir)
     track(json_dir, video_dir, detect_dir, track_dir)
     count(json_dir, video_dir, track_dir, count_dir)
-    # if visualize_dir:
-        # visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, visualize_dir)
+    if visualize_dir:
+        visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, visualize_dir)
