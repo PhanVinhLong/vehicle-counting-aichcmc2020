@@ -139,10 +139,10 @@ def count(json_dir, video_dir, track_dir, save_dir):
 			for frame_id, movement_id, vehicle_class_id in total_moi_detections[video_name]:
 				if not frame_id + 1 or not movement_id or not vehicle_class_id + 1:
 					continue
-				result_file.write('{} {} {} {}\n'.format('video_' + video_name, frame_id + 1, movement_id, vehicle_class_id + 1))
+				result_file.write('{} {} {} {}\n'.format(video_name, frame_id + 1, movement_id, vehicle_class_id + 1))
 				
 	endtime = timeit.default_timer()
-	print('Track time: {} seconds'.format(endtime - starttime))
+	print('Count time: {} seconds'.format(endtime - starttime))
 
 if __name__=='__main__':
 	args = parse_args()

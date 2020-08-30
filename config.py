@@ -1,11 +1,22 @@
 config = {
     'detector': {
-        'classesmap': [[1, 3], [2], [5], [7]],
+        'classesmap': [[0], [1], [2], [3]],
         'classnames': ['1', '2', '3', '4'],
-        'originclassnames': ['person', 'bicycle', 'car', 'motorbike', 'aeroplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'sofa', 'pottedplant', 'bed', 'diningtable', 'toilet', 'tvmonitor', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush'],
-        'cfgfile': 'yolov4/cfg/yolov4.cfg',
-        'weightfile': 'yolov4/yolov4.weights',
-        'classnamefile': 'yolov4/data/coco.names'
+        # 'originclassnames': ['person', 'bicycle', 'car', 'motorbike', 'aeroplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'sofa', 'pottedplant', 'bed', 'diningtable', 'toilet', 'tvmonitor', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush'],
+        'originclassnames': ['loai 1', 'loai 2', 'loai 3', 'loai 4', 'loai 5'],
+	    'cfgfile': 'yolov4/152-model/yolov4.cfg',
+        'weightfile': 'yolov4/152-model/yolov4.weights',
+        'classnamefile': 'yolov4/data/coco.names',
+        'batchsize': 4
+    },
+    'detector2': {
+        'classesmap': [[0], [1], [2], [3]],
+        'classnames': ['1', '2', '3', '4'],
+        'originclassnames': ['loai 1', 'loai 2', 'loai 3', 'loai 4', 'loai 5'],
+    	'cfgfile': 'yolov4/152-model/yolov4.cfg',
+        'weightfile': 'yolov4/152-model/yolov4.weights',
+        'classnamefile': 'yolov4/data/coco.names',
+        'batchsize': 4
     },
     'tracker': {
         'modelfile': 'deep_sort/model_data/mars-small128.pb',

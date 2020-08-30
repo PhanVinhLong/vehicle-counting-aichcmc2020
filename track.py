@@ -74,7 +74,7 @@ def track(json_dir, video_dir, detect_dir, save_dir):
 
     # Deep SORT
     model_filename = config['tracker']['modelfile']
-    encoder = gdet.create_box_encoder(model_filename, batch_size=16)
+    encoder = gdet.create_box_encoder(model_filename, batch_size=config['detector']['batchsize'] * 4)
 
     classes_map = config['detector']['classesmap']
     class_names = config['detector']['classnames']

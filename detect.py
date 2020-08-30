@@ -107,7 +107,7 @@ def detect(json_dir, video_dir, save_dir):
 
             imgs.append(img)
 
-        boxes = detect_yolov4(model, class_names, imgs, cam_name, 4)
+        boxes = detect_yolov4(model, class_names, imgs, cam_name, config['detector']['batchsize'])
 
         # remove bboxes out of MOI
         if config['remove_not_intersec_moi']:
