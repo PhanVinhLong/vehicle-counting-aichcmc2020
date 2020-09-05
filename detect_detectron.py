@@ -9,7 +9,6 @@ import numpy as np
 from PIL import Image
 from shapely.geometry import Polygon
 import torch
-
 from detectron2.engine.defaults import DefaultPredictor
 from detectron2.config import get_cfg
 from detectron2.modeling import build_model

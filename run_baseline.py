@@ -40,5 +40,5 @@ if __name__=='__main__':
     detect(json_dir, video_dir, detect_dir)
     track(json_dir, video_dir, detect_dir, track_dir)
     count(json_dir, video_dir, track_dir, count_dir)
-    if visualize_dir:
-        visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, visualize_dir)
+    # if visualize_dir:
+    #     visualize(json_dir, video_dir, detect_dir, track_dir, count_dir, visualize_dir)

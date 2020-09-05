@@ -15,6 +15,7 @@ from tool.utils import *
 from tool.torch_utils import *
 from tool.darknet2pytorch import Darknet
 from shapely.geometry import Polygon
+
 from utils import *
 from config import config
 

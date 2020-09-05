@@ -3,13 +3,14 @@ import json
 import timeit
 import os
 import argparse
-from utils import *
 from pathlib import Path
-from config import config
+
 import sys
 
-sys.path.append(os.path.realpath('yolov4'))
+from utils import *
+from config import config
 
+sys.path.append(os.path.realpath('yolov4'))
 from tool.utils import *
 
 def parse_args():

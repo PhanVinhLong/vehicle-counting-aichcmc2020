@@ -7,7 +7,11 @@ from pathlib import Path
 import sys
 from shapely.geometry import Polygon
 
-sys.path.append(os.path.realpath('count2'))
+import numpy as np
+import numba
+from inspect import getmembers
+
+sys.path.append(os.path.realpath('hausdorff'))
 from hausdorff_dist import hausdorff_distance
 
 sys.path.append(os.path.realpath('yolov4'))

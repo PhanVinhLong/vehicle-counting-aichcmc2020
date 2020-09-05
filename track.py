@@ -14,13 +14,15 @@ import os
 from tqdm import tqdm
 import moviepy.editor as moviepy
 from pathlib import Path
+import imutils.video
 
+import sys
 from deep_sort import preprocessing
 from deep_sort import nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
 from deep_sort.tools import generate_detections as gdet
-import imutils.video
+
 from utils import *
 from config import config
 
